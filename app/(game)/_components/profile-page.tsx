@@ -91,15 +91,15 @@ export function ProfilePage() {
   }
 
   return (
-    <div className="px-4 py-8 sm:px-6 sm:py-10 lg:px-10">
-      <div className="mx-auto max-w-[1180px]">
-        <div className="mx-auto flex w-full max-w-[420px] flex-wrap rounded-[28px] bg-[#D7DEE9] p-1 sm:w-fit sm:flex-nowrap sm:rounded-full">
+    <div className="px-4 py-8 sm:px-6 sm:py-10 lg:px-[193px]">
+      <div className="">
+        <div className="mx-auto flex w-full  flex-wrap rounded-[28px] bg-[#D7DEE9] p-1 sm:w-fit sm:flex-nowrap sm:rounded-full">
           <button
             type="button"
             onClick={() => setActiveTab("profile")}
-            className={`flex-1 rounded-full px-6 py-3 text-sm font-semibold transition sm:px-8 sm:text-base ${
+            className={`flex-1 rounded-full px-6  font-inter font-medium text-[14px] leading-[20px] tracking-normal text-center align-middle transition py-[8px] sm:text-base ${
               activeTab === "profile"
-                ? "bg-[#1E293B] text-white shadow-[0_10px_18px_rgba(15,23,42,0.16)]"
+                ? "bg-[#1E293B] text-white "
                 : "text-slate-800"
             }`}
           >
@@ -108,9 +108,9 @@ export function ProfilePage() {
           <button
             type="button"
             onClick={() => setActiveTab("password")}
-            className={`flex-1 rounded-full px-6 py-3 text-sm font-semibold transition sm:px-8 sm:text-base ${
+            className={`rounded-full px-6 py-3 text-sm font-semibold transition sm:px-8 sm:text-base ${
               activeTab === "password"
-                ? "bg-[#1E293B] text-white shadow-[0_10px_18px_rgba(15,23,42,0.16)]"
+                ? "bg-[#1E293B] text-white "
                 : "text-slate-800"
             }`}
           >

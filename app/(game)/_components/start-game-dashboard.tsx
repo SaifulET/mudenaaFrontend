@@ -170,19 +170,19 @@ export function StartGameDashboard() {
 
   return (
     <>
-      <div className="bg-[linear-gradient(180deg,#ffffff_0%,#fff7fb_100%)] px-4 py-8 sm:px-6 sm:py-10 lg:px-10">
-        <div className="mx-auto max-w-[1260px]">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <button
-              type="button"
-              onClick={() => setIsBuyModalOpen(true)}
-              className="inline-flex items-center gap-2 rounded-full bg-[#FF0099] px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(255,0,153,0.18)]"
-            >
-              Buy a new game
-              <span className="text-base">+</span>
-            </button>
-          </div>
+      <div className="bg-[linear-gradient(180deg,#ffffff_0%,#fff7fb_100%)] px-4 pb-8 pt-2 sm:px-6 sm:pb-10 sm:pt-3 lg:px-10">
+        <div className="flex flex-wrap items-center justify-start gap-4 pb-3 sm:pb-4">
+          <button
+            type="button"
+            onClick={() => setIsBuyModalOpen(true)}
+            className="inline-flex items-center gap-2 rounded-full bg-[#FF0099] px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(255,0,153,0.18)]"
+          >
+            Buy a new game
+            <span className="text-base">+</span>
+          </button>
+        </div>
 
+        <div className="mx-auto max-w-[1260px]">
           <section className="pt-8 text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
               <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-slate-300 text-[10px]">
