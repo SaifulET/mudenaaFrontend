@@ -1,5 +1,5 @@
-import { StartGameCategories } from "../_components/start-game-categories";
+import { StartGameDashboard } from "../_components/start-game-dashboard";
 
 export default function StartGamePage() {
-  return <StartGameCategories />;
+  return <StartGameDashboard />;
 }

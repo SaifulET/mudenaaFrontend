@@ -51,7 +51,7 @@ export function CategoriesSections() {
     <section className="px-4 pb-10 pt-14 sm:px-6 lg:px-10 lg:pb-16 lg:pt-20 lg:px-[80px]">
       <div className="">
         <header className="text-center">
-          <h1 className="text-5xl font-semibold tracking-[-0.05em] text-slate-900 sm:text-6xl">
+          <h1 className=" font-normal text-[60px] leading-[60px] tracking-[-1.5px] align-middle">
             Browse <span className="text-[#FF0099]">Categories</span>
           </h1>
           <p className=" mt-5  text-lg leading-8 text-slate-400">
@@ -93,52 +93,7 @@ export function CategoriesSections() {
           })}
         </div>
 
-        <div className="mt-8 rounded-[28px] border border-slate-200 bg-[#FFF8FC] p-5 shadow-[0_0_0_1px_rgba(255,0,153,0.03)] sm:p-6">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-xl font-semibold text-slate-900">
-                Selected Areas ({selectedCards.length}/3)
-              </h2>
-              <p className="mt-1 text-sm text-slate-400">
-                Pick up to 3 categories for your team.
-              </p>
-            </div>
-            {selectedCards.length === 3 ? (
-              <span className="text-sm font-semibold text-[#FF0099]">
-                Limit reached
-              </span>
-            ) : null}
-          </div>
-
-          <div className="mt-5 flex flex-wrap gap-3">
-            {selectedCards.length > 0 ? (
-              selectedCards.map((card) => (
-                <button
-                  key={card.title}
-                  type="button"
-                  onClick={() => toggleSelection(card.title)}
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-[0_0_0_1px_rgba(15,23,42,0.05)] transition hover:text-[#FF0099]"
-                >
-                  <span className="relative h-6 w-6 overflow-hidden rounded-full">
-                    <Image
-                      src="/category.svg"
-                      alt=""
-                      fill
-                      className="object-cover"
-                      sizes="24px"
-                      aria-hidden="true"
-                    />
-                  </span>
-                  {card.title}
-                </button>
-              ))
-            ) : (
-              <p className="text-sm text-slate-400">
-                No category selected yet. Choose from the list below.
-              </p>
-            )}
-          </div>
-        </div>
+       
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {visibleCards.map((card) => {

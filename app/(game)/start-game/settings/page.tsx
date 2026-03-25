@@ -18,8 +18,17 @@ export default async function StartGameSettingsPage({
 
   return (
     <GameSettingsStep
+      gameName={params.gameName ?? "Sureli Match"}
       teamA={params.teamA ?? "Hasan"}
       teamB={params.teamB ?? "Mahmmud"}
+      categories={
+        params.categories
+          ? params.categories
+              .split(",")
+              .map((category) => category.trim())
+              .filter(Boolean)
+          : []
+      }
     />
   );
 }

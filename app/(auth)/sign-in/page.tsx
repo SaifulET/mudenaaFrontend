@@ -8,10 +8,10 @@ import {
   GoogleButton,
   InlineLink,
   InputField,
-  primaryActionClassName,
   TopBadge,
 } from "../_components/auth-primitives";
 import { PasswordField } from "../_components/password-field";
+import { SignInSubmitButton } from "../_components/sign-in-submit-button";
 
 export const metadata: Metadata = {
   title: "Sign In | Sureli",
@@ -44,9 +44,7 @@ export default function SignInPage() {
           action={<InlineLink href="/forgot-password">Need help?</InlineLink>}
         />
 
-        <Link href="/landing" className={primaryActionClassName}>
-          Sign In
-        </Link>
+        <SignInSubmitButton />
 
         <Divider label="Or continue with" />
         <GoogleButton label="Sign in with Google" />

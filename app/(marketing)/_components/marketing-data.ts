@@ -87,7 +87,7 @@ export const quickLinks = [
 export const supportLinks = [
   { href: "/faq", label: "FAQ" },
   { href: "/about", label: "About" },
-  { href: "/forgot-password", label: "Privacy Policy" },
+  { href: "/privacy-policy", label: "Privacy Policy" },
 ];
 
 export const howItWorksSteps = [

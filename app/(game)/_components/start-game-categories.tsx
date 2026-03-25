@@ -9,6 +9,7 @@ import { categoryCards, categoryFilters } from "@/app/(marketing)/_components/ma
 import { StartGameShell } from "./start-game-shell";
 
 type CategoryFilter = (typeof categoryFilters)[number];
+const CATEGORY_SELECTION_LIMIT = 5;
 
 export function StartGameCategories() {
   const router = useRouter();
@@ -48,7 +49,7 @@ export function StartGameCategories() {
         return current.filter((item) => item !== title);
       }
 
-      if (current.length >= 3) {
+      if (current.length >= CATEGORY_SELECTION_LIMIT) {
         return current;
       }
 
@@ -73,14 +74,14 @@ export function StartGameCategories() {
     <>
       <StartGameShell
         title="Choose Categories"
-        subtitle="Each team picks 3 categories."
+        subtitle="Choose 5 categories for this game."
         steps={[
           { number: 1, label: "Teams", status: "complete" },
           { number: 2, label: "Categories", status: "current" },
           { number: 3, label: "Play Game", status: "upcoming" },
         ]}
       >
-        <div className="mx-auto max-w-4xl">
+        <div className="pb-[24px] sm:pb-[32px]">
           <label className="flex h-16 items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 shadow-[0_0_0_1px_rgba(15,23,42,0.02),0_10px_28px_rgba(15,23,42,0.05)]">
             <SearchIcon />
             <input
@@ -92,7 +93,7 @@ export function StartGameCategories() {
           </label>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
           {categoryFilters.map((filter) => {
             const isActive = filter === activeFilter;
 
@@ -128,7 +129,7 @@ export function StartGameCategories() {
                     : "border-slate-200"
                 }`}
               >
-                <div className="relative h-56 w-full">
+                <div className="relative h-44 w-full sm:h-56">
                   <Image
                     src="/category.svg"
                     alt={card.title}
@@ -143,8 +144,8 @@ export function StartGameCategories() {
                   ) : null}
                 </div>
                 <div className="flex items-center justify-between gap-4 px-6 py-5">
-                  <div>
-                    <h3 className="text-2xl font-semibold text-slate-900">
+                  <div className="min-w-0">
+                    <h3 className="text-xl font-semibold text-slate-900 sm:text-2xl">
                       {card.title}
                     </h3>
                   </div>
@@ -160,9 +161,9 @@ export function StartGameCategories() {
         </div>
 
         <div className="mt-12 border-t border-slate-200 pt-8">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col items-stretch justify-between gap-4 sm:flex-row sm:items-center">
             <Link
-              href="/categories"
+              href="/start-game"
               className="inline-flex items-center gap-2 rounded-2xl bg-slate-100 px-6 py-4 text-base font-semibold text-slate-600 transition hover:text-slate-900"
             >
               <span>&larr;</span>
@@ -172,8 +173,8 @@ export function StartGameCategories() {
             <button
               type="button"
               onClick={() => setIsModalOpen(true)}
-              disabled={selectedTitles.length !== 3}
-              className="inline-flex items-center gap-2 rounded-2xl bg-[#FF0099] px-8 py-4 text-base font-semibold text-white shadow-[0_12px_24px_rgba(255,0,153,0.18)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
+              disabled={selectedTitles.length !== CATEGORY_SELECTION_LIMIT}
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#FF0099] px-8 py-4 text-base font-semibold text-white shadow-[0_12px_24px_rgba(255,0,153,0.18)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
             >
               Next Step
               <span>&rarr;</span>
@@ -183,25 +184,28 @@ export function StartGameCategories() {
       </StartGameShell>
 
       {isModalOpen ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[linear-gradient(90deg,#951516_0%,#9c1d1a_48%,#ab6824_52%,#b56f2b_100%)]/95 px-4 py-8">
-          <div className="w-full max-w-2xl rounded-[28px] bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.28)] sm:p-8">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-cover bg-center px-4 py-8"
+          style={{ backgroundImage: "url('/bgofmodal.png')" }}
+        >
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[28px] bg-white p-5 shadow-[0_20px_50px_rgba(15,23,42,0.28)] sm:p-8">
             <div className="flex items-start justify-between gap-4">
               <div className="w-full text-center">
-                <h3 className="text-3xl font-semibold text-slate-900">
+                  <h3 className="text-2xl font-semibold text-slate-900 sm:text-3xl">
                   Specify team information
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="text-2xl text-slate-400 transition hover:text-slate-700"
+                className="text-2xl leading-none text-slate-400 transition hover:text-slate-700"
                 aria-label="Close"
               >
                 ×
               </button>
             </div>
 
-            <div className="mt-8 space-y-6">
+            <div className="mt-6 space-y-5 sm:mt-8 sm:space-y-6">
               <Field label="Game Name">
                 <input
                   value={gameName}

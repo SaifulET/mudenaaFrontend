@@ -11,7 +11,7 @@ export function FaqSections() {
     <section className="px-4 pb-12 pt-14 sm:px-6 lg:px-[256px] lg:pb-16 lg:pt-20">
       <div className="">
         <header className="text-center">
-          <h1 className="text-5xl font-semibold tracking-[-0.05em] text-slate-900 sm:text-6xl">
+          <h1 className="font-normal text-[60px] leading-[60px] tracking-[-1.5px] align-middle">
             Frequently Asked <span className="text-[#FF0099]">Questions</span>
           </h1>
           <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-400">

@@ -2,29 +2,38 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
+import { AidIcon } from "./aid-icon";
 import { StartGameShell } from "./start-game-shell";
+import {
+  aidDefinitions,
+  buildMatchState,
+  saveMatchState,
+  type AidId,
+} from "./match-data";
 
 const timeOptions = [10, 15, 20, 30] as const;
-const aidOptions = [
-  { id: "hint", label: "Hint", icon: "✋" },
-  { id: "swap", label: "Swap", icon: "⇅" },
-  { id: "call", label: "Call", icon: "📞" },
-  { id: "double", label: "Double", icon: "✌" },
-] as const;
 
 export function GameSettingsStep({
+  gameName,
   teamA,
   teamB,
+  categories,
 }: {
+  gameName?: string;
   teamA: string;
   teamB: string;
+  categories: string[];
 }) {
+  const router = useRouter();
   const [timePerQuestion, setTimePerQuestion] = useState<(typeof timeOptions)[number]>(15);
-  const [selectedAidsA, setSelectedAidsA] = useState<string[]>(["hint"]);
-  const [selectedAidsB, setSelectedAidsB] = useState<string[]>(["hint"]);
+  const [selectedAidsA, setSelectedAidsA] = useState<AidId[]>(["hint"]);
+  const [selectedAidsB, setSelectedAidsB] = useState<AidId[]>(["hint"]);
 
   const canStartMatch = selectedAidsA.length === 3 && selectedAidsB.length === 3;
+  const selectedCategories =
+    categories.length > 0 ? categories : ["Pop Culture", "Video Games", "Sports Icons"];
 
   const teamNames = useMemo(
     () => ({
@@ -33,6 +42,23 @@ export function GameSettingsStep({
     }),
     [teamA, teamB],
   );
+
+  function handleStartMatch() {
+    const matchState = buildMatchState({
+      gameName,
+      teamA,
+      teamB,
+      categories: selectedCategories,
+      timePerQuestion,
+      aidSelections: {
+        left: selectedAidsA,
+        right: selectedAidsB,
+      },
+    });
+
+    saveMatchState(matchState);
+    router.push("/start-game/match");
+  }
 
   return (
     <StartGameShell
@@ -43,10 +69,10 @@ export function GameSettingsStep({
         { number: 3, label: "Play Game", status: "current" },
       ]}
     >
-      <div className="mx-auto max-w-5xl">
+      <div>
         <section>
           <h3 className="text-lg font-semibold text-slate-900">Time per Question</h3>
-          <div className="mt-4 grid grid-cols-4 overflow-hidden rounded-2xl bg-slate-100 p-1">
+          <div className="mt-4 grid grid-cols-2 overflow-hidden rounded-2xl bg-slate-100 p-1 sm:grid-cols-4">
             {timeOptions.map((option) => (
               <button
                 key={option}
@@ -89,9 +115,9 @@ export function GameSettingsStep({
         </section>
 
         <div className="mt-14 border-t border-slate-200 pt-8">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col items-stretch justify-between gap-4 sm:flex-row sm:items-center">
             <Link
-              href="/start-game"
+              href="/start-game/new"
               className="inline-flex items-center gap-2 text-base font-semibold text-slate-600 transition hover:text-slate-900"
             >
               <span>&larr;</span>
@@ -100,8 +126,9 @@ export function GameSettingsStep({
 
             <button
               type="button"
+              onClick={handleStartMatch}
               disabled={!canStartMatch}
-              className="inline-flex items-center gap-2 rounded-2xl bg-[#FF0099] px-8 py-4 text-base font-semibold text-white shadow-[0_12px_24px_rgba(255,0,153,0.18)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#FF0099] px-8 py-4 text-base font-semibold text-white shadow-[0_12px_24px_rgba(255,0,153,0.18)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
             >
               Start Match
               <span>&rarr;</span>
@@ -119,8 +146,8 @@ function AidSelector({
   onToggle,
 }: {
   teamName: string;
-  selectedAids: string[];
-  onToggle: (aidId: string) => void;
+  selectedAids: AidId[];
+  onToggle: (aidId: AidId) => void;
 }) {
   return (
     <div>
@@ -131,8 +158,8 @@ function AidSelector({
         <span className="text-lg font-semibold text-slate-900">{teamName}</span>
       </div>
 
-      <div className="mt-6 grid grid-cols-4 gap-4">
-        {aidOptions.map((aid) => {
+      <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {aidDefinitions.map((aid) => {
           const isSelected = selectedAids.includes(aid.id);
 
           return (
@@ -142,12 +169,13 @@ function AidSelector({
               onClick={() => onToggle(aid.id)}
               className={`flex aspect-square items-center justify-center rounded-2xl border-2 text-2xl transition ${
                 isSelected
-                  ? "border-[#FF0099] bg-white shadow-[0_10px_20px_rgba(255,0,153,0.14)]"
+                  ? "border-[#FF0099] bg-white "
                   : "border-slate-200 bg-white text-slate-400 hover:border-[#FF0099]/40"
               }`}
               aria-label={aid.label}
+              title={aid.label}
             >
-              {aid.icon}
+              <AidIcon aidId={aid.id} className="h-8 w-8" />
             </button>
           );
         })}
@@ -160,7 +188,7 @@ function AidSelector({
   );
 }
 
-function toggleAid(current: string[], aidId: string) {
+function toggleAid(current: AidId[], aidId: AidId) {
   if (current.includes(aidId)) {
     return current.filter((item) => item !== aidId);
   }

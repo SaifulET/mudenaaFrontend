@@ -18,27 +18,27 @@ export function StartGameShell({
   children: ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-white px-4 py-10 sm:px-6 lg:px-10">
-      <div className="mx-auto max-w-6xl">
+    <div className="min-h-screen bg-white px-4 py-8 sm:px-6 sm:py-10 lg:px-[128px]">
+      <div className="">
         <header className="text-center">
-          <h1 className="text-5xl font-semibold tracking-[-0.05em] text-slate-900 sm:text-6xl">
+          <h1 className="font-sans text-3xl font-semibold leading-[38px] sm:text-4xl sm:leading-[45px]">
             Start a New Game
           </h1>
         </header>
 
         <Stepper steps={steps} />
 
-        <section className="mt-14 rounded-[36px] bg-white p-6 shadow-[0_0_0_1px_rgba(15,23,42,0.05),0_20px_50px_rgba(15,23,42,0.06)] sm:p-8 lg:p-10">
-          <div className="text-center">
-            <h2 className="text-4xl font-semibold tracking-[-0.04em] text-slate-900 sm:text-5xl">
+        <section className="bg-white px-0 py-6 sm:p-8 lg:p-10">
+          <div className="pb-[28px] text-center sm:pb-[32px]">
+            <h2 className="text-[30px] font-semibold leading-[38px] text-slate-900 sm:text-[36px] sm:leading-[45px]">
               {title}
             </h2>
             {subtitle ? (
-              <p className="mt-4 text-lg text-slate-400">{subtitle}</p>
+              <p className="text-base text-slate-400 sm:text-lg">{subtitle}</p>
             ) : null}
           </div>
 
-          <div className="mt-10">{children}</div>
+          <div className="">{children}</div>
         </section>
       </div>
     </div>
@@ -47,10 +47,10 @@ export function StartGameShell({
 
 function Stepper({ steps }: { steps: Step[] }) {
   return (
-    <div className="mx-auto mt-10 flex max-w-5xl items-center justify-between gap-3">
+    <div className="mx-auto mt-8 flex max-w-5xl gap-3 overflow-x-auto pb-2 sm:mt-10 sm:items-center sm:justify-between sm:overflow-visible sm:pb-0">
       {steps.map((step, index) => (
-        <div key={step.number} className="flex flex-1 items-center gap-3">
-          <div className="flex items-center gap-3">
+        <div key={step.number} className="flex min-w-fit flex-1 items-center gap-3">
+          <div className="flex min-w-fit items-center gap-2 sm:gap-3">
             <span
               className={`inline-flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
                 step.status === "complete"
@@ -63,7 +63,7 @@ function Stepper({ steps }: { steps: Step[] }) {
               {step.status === "complete" ? "✓" : step.number}
             </span>
             <span
-              className={`text-sm font-semibold ${
+              className={`whitespace-nowrap text-sm font-semibold ${
                 step.status === "upcoming" ? "text-slate-400" : "text-slate-700"
               }`}
             >
