@@ -206,15 +206,15 @@ export function MatchSidebar({
 
 export function BoardFooterScores({ state }: { state: MatchState }) {
   return (
-    <section className="mt-10 rounded-[14px] bg-[#ECEEF3] px-4 py-5 sm:mt-12 sm:px-8 sm:py-6">
-      <div className="grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
+    <section className="mt-8 rounded-[6px] bg-[#E9EBF0] px-4 py-4 sm:mt-10 sm:px-5 sm:py-4">
+      <div className="grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
         <FooterTeamPanel
           team={state.teams.left}
           active={state.activeTeam === "left"}
           align="left"
         />
         <div className="flex justify-center">
-          <div className="inline-flex items-center justify-center rounded-[4px] bg-[#FF0099] px-4 py-2.5 text-2xl font-black uppercase tracking-[-0.03em] text-white sm:px-5 sm:py-3 sm:text-3xl">
+          <div className="inline-flex items-center justify-center rounded-[4px] bg-[#FF0099] px-4 py-2 text-xl font-black uppercase tracking-[-0.03em] text-white sm:px-5 sm:text-2xl">
             SURELI
           </div>
         </div>
@@ -238,29 +238,19 @@ function FooterTeamPanel({
   align: "left" | "right";
 }) {
   const scoreControls =
-    align === "left" ? (
-      <>
-        <ScoreControlButton tone="minus" />
-        <ScoreControlButton tone="plus" />
-        <div className="rounded-xl bg-[#172554] px-4 py-3 text-3xl font-black leading-none text-white sm:px-5 sm:text-4xl">
-          {team.score}
-        </div>
-      </>
-    ) : (
-      <>
-        <ScoreControlButton tone="minus" />
-        <ScoreControlButton tone="plus" />
-        <div className="rounded-xl bg-[#172554] px-4 py-3 text-3xl font-black leading-none text-white sm:px-5 sm:text-4xl">
-          {team.score}
-        </div>
-      </>
-    );
+    <>
+      <ScoreControlButton tone="minus" />
+      <ScoreControlButton tone="plus" />
+      <div className="rounded-[6px] bg-[#1E2B6F] px-3 py-1.5 text-2xl font-black leading-none text-white sm:px-4 sm:text-[28px]">
+        {team.score}
+      </div>
+    </>;
 
   return (
-    <div className="rounded-[28px] bg-transparent px-1 py-1">
-      <div className={`mx-auto w-full max-w-[420px] ${align === "right" ? "lg:text-right" : ""}`}>
+    <div className="rounded-[20px] bg-transparent">
+      <div className={`mx-auto w-full max-w-[360px] ${align === "right" ? "lg:text-right" : ""}`}>
         <div
-          className={`mx-auto w-fit min-w-[160px] rounded-full px-5 py-2 text-center text-lg font-bold text-white sm:min-w-[180px] sm:px-6 sm:text-xl ${
+          className={`mx-auto w-fit min-w-[116px] rounded-[4px] px-4 py-1 text-center text-xs font-bold text-white sm:min-w-[124px] sm:text-sm ${
             active ? "bg-[#FF0099]" : "bg-[#E32676]"
           }`}
         >
@@ -268,17 +258,19 @@ function FooterTeamPanel({
         </div>
 
         <div
-          className={`mt-4 flex flex-col gap-4 lg:flex-row lg:items-center ${
+          className={`mt-3 flex flex-col gap-3 lg:flex-row lg:items-center ${
             align === "right" ? "lg:flex-row-reverse" : ""
           }`}
         >
-          <div className={`flex flex-wrap items-center justify-center gap-3 ${align === "right" ? "lg:justify-start" : "lg:justify-start"}`}>
+          <div className="flex flex-wrap items-center justify-center gap-2 lg:justify-start">
             {scoreControls}
           </div>
 
           <div className="min-w-0 flex-1">
-            <p className="mb-3 text-center text-sm font-semibold text-slate-700">Assistance</p>
-            <AidPills team={team} variant="icon" />
+            <p className="mb-2 text-center text-[11px] font-semibold text-slate-700">Assistance</p>
+            <div className="flex justify-center lg:justify-start">
+              <AidPills team={team} variant="icon" />
+            </div>
           </div>
         </div>
       </div>
@@ -292,7 +284,7 @@ function ScoreControlButton({ tone }: { tone: "minus" | "plus" }) {
       type="button"
       aria-hidden="true"
       tabIndex={-1}
-      className={`inline-flex h-10 w-10 items-center justify-center rounded-lg text-2xl font-bold text-white ${
+      className={`inline-flex h-7 w-7 items-center justify-center rounded-[4px] text-lg font-bold text-white ${
         tone === "minus" ? "bg-[#EF4444]" : "bg-[#16A34A]"
       }`}
     >

@@ -1,5 +1,5 @@
 export const marketingNavItems = [
-  { href: "/landing", label: "Home" },
+  { href: "/", label: "Home" },
   { href: "/how-it-works", label: "How It Works" },
   { href: "/categories", label: "Categories" },
   { href: "/faq", label: "FAQ" },

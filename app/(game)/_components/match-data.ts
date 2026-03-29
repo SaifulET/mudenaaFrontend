@@ -670,8 +670,8 @@ function sanitizeCategories(rawCategories: string[]) {
     .filter(Boolean)
     .filter((category, index, values) => values.indexOf(category) === index);
 
-  if (uniqueTitles.length >= 3) {
-    return uniqueTitles.slice(0, 5);
+  if (uniqueTitles.length >= 6) {
+    return uniqueTitles.slice(0, 6);
   }
 
   const fallbackTitles = [...defaultCategoryTitles];
@@ -681,12 +681,12 @@ function sanitizeCategories(rawCategories: string[]) {
       uniqueTitles.push(title);
     }
 
-    if (uniqueTitles.length >= 3) {
+    if (uniqueTitles.length >= 6) {
       break;
     }
   }
 
-  return uniqueTitles.slice(0, 5);
+  return uniqueTitles.slice(0, 6);
 }
 
 function createFallbackPreset(title: string, categoryIndex: number): CategoryPreset {

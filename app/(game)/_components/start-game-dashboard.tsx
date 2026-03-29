@@ -31,49 +31,49 @@ const seedGames: LibraryGame[] = [
   {
     id: "maserati",
     name: "Maserati",
-    categories: ["Music Legends", "Video Games", "Pop Culture", "Sports Icons", "Geography"],
+    categories: ["Music Legends", "Video Games", "Pop Culture", "Sports Icons", "Geography", "Science & Tech"],
     playerCount: 4,
   },
   {
     id: "mercedes",
     name: "Mercedes",
-    categories: ["Science & Tech", "Music Legends", "Geography", "Video Games", "Pop Culture"],
+    categories: ["Science & Tech", "Music Legends", "Geography", "Video Games", "Pop Culture", "Sports Icons"],
     playerCount: 4,
   },
   {
     id: "porsche",
     name: "Porsche",
-    categories: ["Pop Culture", "Sports Icons", "Science & Tech", "Geography", "Music Legends"],
+    categories: ["Pop Culture", "Sports Icons", "Science & Tech", "Geography", "Music Legends", "Video Games"],
     playerCount: 4,
   },
   {
     id: "jaguar",
     name: "Jaguar",
-    categories: ["Video Games", "Music Legends", "Science & Tech", "Pop Culture", "Sports Icons"],
+    categories: ["Video Games", "Music Legends", "Science & Tech", "Pop Culture", "Sports Icons", "Geography"],
     playerCount: 4,
   },
   {
     id: "ford",
     name: "Ford",
-    categories: ["Geography", "Science & Tech", "Pop Culture", "Music Legends", "Sports Icons"],
+    categories: ["Geography", "Science & Tech", "Pop Culture", "Music Legends", "Sports Icons", "Video Games"],
     playerCount: 4,
   },
   {
     id: "dodge",
     name: "Dodge",
-    categories: ["Music Legends", "Geography", "Sports Icons", "Video Games", "Science & Tech"],
+    categories: ["Music Legends", "Geography", "Sports Icons", "Video Games", "Science & Tech", "Pop Culture"],
     playerCount: 4,
   },
   {
     id: "lexus",
     name: "Lexus",
-    categories: ["Science & Tech", "Sports Icons", "Geography", "Pop Culture", "Video Games"],
+    categories: ["Science & Tech", "Sports Icons", "Geography", "Pop Culture", "Video Games", "Music Legends"],
     playerCount: 4,
   },
   {
     id: "buick",
     name: "Buick",
-    categories: ["Pop Culture", "Geography", "Music Legends", "Science & Tech", "Sports Icons"],
+    categories: ["Pop Culture", "Geography", "Music Legends", "Science & Tech", "Sports Icons", "Video Games"],
     playerCount: 4,
   },
 ];
@@ -336,10 +336,12 @@ export function StartGameDashboard() {
                 setIsBuyModalOpen(false);
                 router.push("/start-game/new");
               }}
-              className="mt-8 flex h-16 w-full items-center justify-center gap-3 rounded-[22px] bg-[#2442B2] px-6 text-xl font-semibold text-white shadow-[0_18px_40px_rgba(36,66,178,0.22)] sm:text-3xl"
+              className="mt-8 flex min-h-16 w-full items-center justify-between rounded-[22px] bg-[#2442B2] px-6 py-4 text-left text-xl font-semibold text-white shadow-[0_18px_40px_rgba(36,66,178,0.22)] sm:text-2xl"
             >
-              {selectedPack.price} - Pay now
-              <span className="text-base">▣</span>
+              <span className="pr-4 leading-tight">{selectedPack.price} - Pay now</span>
+              <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/12">
+                <PaymentIcon />
+              </span>
             </button>
           </div>
         </div>
@@ -514,6 +516,26 @@ function Field({
   );
 }
 
+function PaymentIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="6" y="6" width="12" height="12" rx="1.5" />
+      <path d="M9 9h6" />
+      <path d="M9 12h6" />
+      <path d="M9 15h4" />
+    </svg>
+  );
+}
+
 function SearchIcon() {
   return (
     <svg
@@ -531,3 +553,4 @@ function SearchIcon() {
     </svg>
   );
 }
+

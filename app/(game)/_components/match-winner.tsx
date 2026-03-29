@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -30,15 +29,21 @@ export function MatchWinner() {
 
   return (
     <div className="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] min-h-[620px] w-screen overflow-hidden bg-white sm:min-h-[780px] lg:min-h-[860px]">
-      <div className="pointer-events-none absolute inset-0">
-        <Image
-          src="/congratulationsbg.png"
-          alt=""
-          fill
-          priority
-          className="object-fill object-center"
-          sizes="100vw"
-        />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,0,153,0.06),transparent_28%),linear-gradient(180deg,#ffffff_0%,#fff7fb_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-[16%] h-28 bg-[radial-gradient(circle,rgba(148,163,184,0.18)_0%,rgba(148,163,184,0)_68%)] blur-3xl sm:h-36" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-[18%] flex items-center justify-center gap-6 opacity-60 sm:gap-10">
+        {Array.from({ length: 7 }).map((_, index) => (
+          <span
+            key={index}
+            className={`inline-flex rounded-full ${
+              index % 3 === 0
+                ? "h-6 w-6 bg-[#CBD5E1]/70"
+                : index % 3 === 1
+                  ? "h-5 w-5 bg-[#FBCFE8]/70"
+                  : "h-4 w-4 bg-[#BFDBFE]/70"
+            }`}
+          />
+        ))}
       </div>
 
       <div className="relative z-10 flex min-h-[620px] items-start justify-center px-4 py-10 text-center sm:min-h-[780px] sm:px-6 sm:py-12 lg:min-h-[860px] lg:px-10">

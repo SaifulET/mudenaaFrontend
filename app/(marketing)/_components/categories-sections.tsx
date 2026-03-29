@@ -29,10 +29,6 @@ export function CategoriesSections() {
     });
   }, [activeFilter, search]);
 
-  const selectedCards = categoryCards.filter((card) =>
-    selectedTitles.includes(card.title),
-  );
-
   function toggleSelection(title: string) {
     setSelectedTitles((current) => {
       if (current.includes(title)) {
@@ -72,7 +68,7 @@ export function CategoriesSections() {
           </label>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3 ">
           {categoryFilters.map((filter) => {
             const isActive = filter === activeFilter;
 
@@ -95,7 +91,7 @@ export function CategoriesSections() {
 
        
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-5 lg:px-[50px] xl:px-[200px]">
           {visibleCards.map((card) => {
             const isSelected = selectedTitles.includes(card.title);
 
@@ -121,7 +117,7 @@ export function CategoriesSections() {
                 </div>
                 <div className="flex items-center justify-between gap-4 px-6 py-5">
                   <div>
-                    <h3 className="text-2xl font-semibold text-slate-900">
+                    <h3 className="font-bold text-[18px] leading-[28px] tracking-[0px] align-middle">
                       {card.title}
                     </h3>
                    

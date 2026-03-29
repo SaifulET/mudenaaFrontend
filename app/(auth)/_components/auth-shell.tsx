@@ -6,14 +6,6 @@ type AuthShellProps = {
   children: ReactNode;
 };
 
-const navItems = [
-  { href: "/sign-in", label: "Sign In" },
-  { href: "/sign-up", label: "Create Account" },
-  { href: "/forgot-password", label: "Recover" },
-  { href: "/verify-otp", label: "Verify OTP" },
-  { href: "/reset-password", label: "New Password" },
-];
-
 const ornaments = [
   {
     src: "/topleftcreateaccountBgIcon.png",
@@ -51,47 +43,6 @@ const ornaments = [
 export function AuthShell({ children }: AuthShellProps) {
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-white text-slate-900">
-      <header className="relative z-20 px-4 pt-4 sm:px-6 lg:px-10">
-        <div className="flex w-full items-center justify-between gap-4 rounded-full border border-white/70 bg-white/90 px-4 py-3  sm:px-6">
-          <Link href="/sign-in" className="shrink-0">
-            <Image
-              src="/navlogo.png"
-              alt="Sureli"
-              width={44}
-              height={44}
-              priority
-            />
-          </Link>
-
-          <nav className="hidden items-center gap-5 text-sm font-medium text-slate-600 lg:flex">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="transition hover:text-[#FF0099]"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <Link
-              href="/sign-in"
-              className="hidden text-sm font-semibold text-slate-700 transition hover:text-[#FF0099] sm:inline"
-            >
-              Log In
-            </Link>
-            <Link
-              href="/sign-up"
-              className="inline-flex items-center justify-center overflow-hidden rounded-full bg-[#FF0099] px-4 py-2 text-sm font-semibold text-white shadow-[0_0_0_1px_rgba(255,0,153,0.08),0_10px_24px_rgba(255,0,153,0.18)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(255,0,153,0.12),0_14px_28px_rgba(255,0,153,0.22)]"
-            >
-              Start a Game
-            </Link>
-          </div>
-        </div>
-      </header>
-
       <main className="relative flex flex-1 items-center justify-center bg-[#F8FAFC] px-4 py-10 sm:px-6 lg:px-10">
         {ornaments.map((ornament, index) => (
           <Image

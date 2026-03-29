@@ -33,7 +33,16 @@ export function GameSettingsStep({
 
   const canStartMatch = selectedAidsA.length === 3 && selectedAidsB.length === 3;
   const selectedCategories =
-    categories.length > 0 ? categories : ["Pop Culture", "Video Games", "Sports Icons"];
+    categories.length > 0
+      ? categories
+      : [
+          "Music Legends",
+          "Video Games",
+          "Pop Culture",
+          "Sports Icons",
+          "Geography",
+          "Science & Tech",
+        ];
 
   const teamNames = useMemo(
     () => ({
