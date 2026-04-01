@@ -187,6 +187,26 @@ export const categoryCards = [
     category: "Games" as const,
     searchTerms: ["science", "technology", "future", "innovation"],
   },
+  {
+    title: "Movie Magic",
+    category: "Entertainment" as const,
+    searchTerms: ["movies", "cinema", "actors", "hollywood"],
+  },
+  {
+    title: "Retro Arcade",
+    category: "Games" as const,
+    searchTerms: ["retro", "arcade", "pixel", "classics"],
+  },
+  {
+    title: "Championship Moments",
+    category: "Sports" as const,
+    searchTerms: ["finals", "champions", "tournaments", "records"],
+  },
+  {
+    title: "Sitcom Classics",
+    category: "TV Shows" as const,
+    searchTerms: ["sitcom", "episodes", "characters", "comedy"],
+  },
 ] as const;
 
 export const faqItems = [
