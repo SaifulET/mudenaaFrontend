@@ -15,12 +15,16 @@ export default async function StartGameSettingsPage({
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
+  const membersA = Number.parseInt(params.membersA ?? "2", 10);
+  const membersB = Number.parseInt(params.membersB ?? "2", 10);
 
   return (
     <GameSettingsStep
-      gameName={params.gameName ?? "Sureli Match"}
+      gameName={params.gameName ?? ""}
       teamA={params.teamA ?? "Hasan"}
       teamB={params.teamB ?? "Mahmmud"}
+      membersA={Number.isNaN(membersA) ? 2 : membersA}
+      membersB={Number.isNaN(membersB) ? 2 : membersB}
       categories={
         params.categories
           ? params.categories
