@@ -5,65 +5,35 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { AidIcon } from "./aid-icon";
-import { StartGameShell } from "./start-game-shell";
 import {
   aidDefinitions,
   buildMatchState,
   saveMatchState,
   type AidId,
 } from "./match-data";
+import type { LibraryGame } from "./start-game-library";
 
-const timeOptions = [10, 15, 20, 30] as const;
-
-export function GameSettingsStep({
-  gameName,
-  teamA,
-  teamB,
-  membersA,
-  membersB,
-  categories,
-}: {
-  gameName?: string;
-  teamA: string;
-  teamB: string;
-  membersA: number;
-  membersB: number;
-  categories: string[];
-}) {
+export function StartGameMatchSetup({ game }: { game: LibraryGame }) {
   const router = useRouter();
-  const [draftGameName, setDraftGameName] = useState(gameName ?? "");
-  const [draftTeamA, setDraftTeamA] = useState(teamA || "Hasan");
-  const [draftTeamB, setDraftTeamB] = useState(teamB || "Mahmmud");
-  const [draftMembersA, setDraftMembersA] = useState(Math.max(1, membersA || 2));
-  const [draftMembersB, setDraftMembersB] = useState(Math.max(1, membersB || 2));
-  const [timePerQuestion, setTimePerQuestion] = useState<(typeof timeOptions)[number]>(15);
+  const [teamA, setTeamA] = useState("Hasan");
+  const [teamB, setTeamB] = useState("Mahmmud");
+  const [membersA, setMembersA] = useState(2);
+  const [membersB, setMembersB] = useState(2);
   const [selectedAidsA, setSelectedAidsA] = useState<AidId[]>(["hint", "swap", "call"]);
   const [selectedAidsB, setSelectedAidsB] = useState<AidId[]>(["hint", "call", "double"]);
 
-  const selectedCategories =
-    categories.length > 0
-      ? categories
-      : [
-          "Music Legends",
-          "Video Games",
-          "Pop Culture",
-          "Sports Icons",
-          "Geography",
-          "Science & Tech",
-        ];
-
   const canStartMatch =
-    draftTeamA.trim().length > 0 &&
-    draftTeamB.trim().length > 0 &&
+    teamA.trim().length > 0 &&
+    teamB.trim().length > 0 &&
     selectedAidsA.length === 3 &&
     selectedAidsB.length === 3;
 
   const teamNames = useMemo(
     () => ({
-      left: draftTeamA || "Hasan",
-      right: draftTeamB || "Mahmmud",
+      left: teamA || "Hasan",
+      right: teamB || "Mahmmud",
     }),
-    [draftTeamA, draftTeamB],
+    [teamA, teamB],
   );
 
   function handleStartMatch() {
@@ -72,11 +42,11 @@ export function GameSettingsStep({
     }
 
     const matchState = buildMatchState({
-      gameName: draftGameName,
-      teamA: draftTeamA,
-      teamB: draftTeamB,
-      categories: selectedCategories,
-      timePerQuestion,
+      gameName: game.name,
+      teamA,
+      teamB,
+      categories: game.categories,
+      timePerQuestion: 15,
       aidSelections: {
         left: selectedAidsA,
         right: selectedAidsB,
@@ -88,55 +58,20 @@ export function GameSettingsStep({
   }
 
   return (
-    <StartGameShell
-      title="Game Settings"
-      steps={[
-        { number: 1, label: "Categories", status: "complete" },
-        { number: 2, label: "Team", status: "current" },
-        { number: 3, label: "Play Game", status: "upcoming" },
-      ]}
-    >
-      <div className="mx-auto max-w-[980px]">
-        <section>
-          <p className="text-sm font-medium text-slate-700">Time per Question</p>
-          <div className="mt-3 grid grid-cols-2 overflow-hidden rounded-2xl bg-slate-100 p-1.5 sm:grid-cols-4">
-            {timeOptions.map((option) => {
-              const isActive = timePerQuestion === option;
+    <div className="bg-white px-4 pb-12 pt-8 sm:px-6 sm:pb-16 sm:pt-10 lg:px-10">
+      <div className="mx-auto max-w-[940px]">
+        <header className="text-center">
+          <h1 className="text-4xl font-medium tracking-[-0.04em] text-slate-900 sm:text-5xl">
+            Start Game
+          </h1>
+        </header>
 
-              return (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => setTimePerQuestion(option)}
-                  className={`rounded-xl px-4 py-4 text-sm font-semibold transition sm:text-base ${
-                    isActive
-                      ? "bg-slate-900 text-white shadow-[0_10px_20px_rgba(15,23,42,0.18)]"
-                      : "text-slate-500 hover:text-slate-900"
-                  }`}
-                >
-                  {option}s
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="mt-8">
-          <FieldLabel label="Game Name" />
-          <input
-            value={draftGameName}
-            onChange={(event) => setDraftGameName(event.target.value)}
-            placeholder="Specific game name"
-            className="mt-2 h-12 w-full rounded-lg border border-slate-300 px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#FF0099] sm:h-14 sm:text-base"
-          />
-        </section>
-
-        <section className="mt-6 grid gap-6 sm:grid-cols-2">
+        <section className="mt-14 grid gap-6 sm:grid-cols-2">
           <div>
             <FieldLabel label="Team A" />
             <input
-              value={draftTeamA}
-              onChange={(event) => setDraftTeamA(event.target.value)}
+              value={teamA}
+              onChange={(event) => setTeamA(event.target.value)}
               placeholder="Team name"
               className="mt-2 h-12 w-full rounded-lg border border-slate-300 px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#FF0099] sm:h-14 sm:text-base"
             />
@@ -145,8 +80,8 @@ export function GameSettingsStep({
           <div>
             <FieldLabel label="Team B" />
             <input
-              value={draftTeamB}
-              onChange={(event) => setDraftTeamB(event.target.value)}
+              value={teamB}
+              onChange={(event) => setTeamB(event.target.value)}
               placeholder="Team name"
               className="mt-2 h-12 w-full rounded-lg border border-slate-300 px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#FF0099] sm:h-14 sm:text-base"
             />
@@ -154,16 +89,8 @@ export function GameSettingsStep({
         </section>
 
         <section className="mt-6 grid gap-6 sm:grid-cols-2">
-          <CounterField
-            label="Team Member"
-            value={draftMembersA}
-            onChange={setDraftMembersA}
-          />
-          <CounterField
-            label="Team Member"
-            value={draftMembersB}
-            onChange={setDraftMembersB}
-          />
+          <CounterField label="Team Member" value={membersA} onChange={setMembersA} />
+          <CounterField label="Team Member" value={membersB} onChange={setMembersB} />
         </section>
 
         <section className="mt-8">
@@ -190,7 +117,7 @@ export function GameSettingsStep({
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <Link
-            href="/start-game/new"
+            href="/start-game"
             className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-slate-900 sm:text-base"
           >
             <span>&larr;</span>
@@ -208,14 +135,12 @@ export function GameSettingsStep({
           </button>
         </div>
       </div>
-    </StartGameShell>
+    </div>
   );
 }
 
 function FieldLabel({ label }: { label: string }) {
-  return (
-    <p className="text-center text-sm font-semibold text-slate-800">{label}</p>
-  );
+  return <p className="text-center text-sm font-semibold text-slate-800">{label}</p>;
 }
 
 function CounterField({

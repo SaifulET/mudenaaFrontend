@@ -5,18 +5,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { categoryCards } from "@/app/(marketing)/_components/marketing-data";
-import {
-  buildMatchState,
-  saveMatchState,
-  type AidId,
-} from "./match-data";
-
-type LibraryGame = {
-  id: string;
-  name: string;
-  categories: string[];
-  playerCount: number;
-};
+import { libraryGames, type LibraryGame } from "./start-game-library";
 
 type PackOption = {
   id: string;
@@ -24,59 +13,6 @@ type PackOption = {
   price: string;
   accentClassName: string;
 };
-
-const defaultAidSelection: AidId[] = ["hint", "swap", "call"];
-
-const seedGames: LibraryGame[] = [
-  {
-    id: "maserati",
-    name: "Maserati",
-    categories: ["Music Legends", "Video Games", "Pop Culture", "Sports Icons", "Geography", "Science & Tech"],
-    playerCount: 4,
-  },
-  {
-    id: "mercedes",
-    name: "Mercedes",
-    categories: ["Science & Tech", "Music Legends", "Geography", "Video Games", "Pop Culture", "Sports Icons"],
-    playerCount: 4,
-  },
-  {
-    id: "porsche",
-    name: "Porsche",
-    categories: ["Pop Culture", "Sports Icons", "Science & Tech", "Geography", "Music Legends", "Video Games"],
-    playerCount: 4,
-  },
-  {
-    id: "jaguar",
-    name: "Jaguar",
-    categories: ["Video Games", "Music Legends", "Science & Tech", "Pop Culture", "Sports Icons", "Geography"],
-    playerCount: 4,
-  },
-  {
-    id: "ford",
-    name: "Ford",
-    categories: ["Geography", "Science & Tech", "Pop Culture", "Music Legends", "Sports Icons", "Video Games"],
-    playerCount: 4,
-  },
-  {
-    id: "dodge",
-    name: "Dodge",
-    categories: ["Music Legends", "Geography", "Sports Icons", "Video Games", "Science & Tech", "Pop Culture"],
-    playerCount: 4,
-  },
-  {
-    id: "lexus",
-    name: "Lexus",
-    categories: ["Science & Tech", "Sports Icons", "Geography", "Pop Culture", "Video Games", "Music Legends"],
-    playerCount: 4,
-  },
-  {
-    id: "buick",
-    name: "Buick",
-    categories: ["Pop Culture", "Geography", "Music Legends", "Science & Tech", "Sports Icons", "Video Games"],
-    playerCount: 4,
-  },
-];
 
 const packOptions: PackOption[] = [
   {
@@ -107,15 +43,12 @@ const packOptions: PackOption[] = [
 
 export function StartGameDashboard() {
   const router = useRouter();
-  const [games] = useState<LibraryGame[]>(seedGames);
+  const [games] = useState<LibraryGame[]>(libraryGames);
   const [categorySearch, setCategorySearch] = useState("");
   const [nameSearch, setNameSearch] = useState("");
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [selectedPackId, setSelectedPackId] = useState(packOptions[0].id);
   const [discountCode, setDiscountCode] = useState("");
-  const [activeGame, setActiveGame] = useState<LibraryGame | null>(null);
-  const [teamA, setTeamA] = useState("Hasan");
-  const [teamB, setTeamB] = useState("Mahmmud");
 
   const filteredGames = useMemo(() => {
     const normalizedCategorySearch = categorySearch.trim().toLowerCase();
@@ -141,31 +74,8 @@ export function StartGameDashboard() {
   const selectedPack =
     packOptions.find((pack) => pack.id === selectedPackId) ?? packOptions[0];
 
-  function openPlayModal(game: LibraryGame) {
-    setActiveGame(game);
-    setTeamA("Hasan");
-    setTeamB("Mahmmud");
-  }
-
-  function handleStartMatch() {
-    if (!activeGame) {
-      return;
-    }
-
-    const matchState = buildMatchState({
-      gameName: activeGame.name,
-      teamA,
-      teamB,
-      categories: activeGame.categories,
-      timePerQuestion: 15,
-      aidSelections: {
-        left: defaultAidSelection,
-        right: defaultAidSelection,
-      },
-    });
-
-    saveMatchState(matchState);
-    router.push("/start-game/match");
+  function handleOpenGame(gameId: string) {
+    router.push(`/start-game/${gameId}`);
   }
 
   return (
@@ -221,7 +131,9 @@ export function StartGameDashboard() {
           </section>
 
           <section id="my-games" className="mt-14">
-            <h2 className="text-center text-3xl font-semibold text-slate-900 sm:text-4xl">My games</h2>
+            <h2 className="text-center text-3xl font-semibold text-slate-900 sm:text-4xl">
+              My games
+            </h2>
 
             <div className="mt-10 grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
               <SearchField
@@ -247,7 +159,7 @@ export function StartGameDashboard() {
 
             <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
               {filteredGames.map((game) => (
-                <GameCard key={game.id} game={game} onPlay={() => openPlayModal(game)} />
+                <GameCard key={game.id} game={game} onPlay={() => handleOpenGame(game.id)} />
               ))}
             </div>
 
@@ -346,72 +258,6 @@ export function StartGameDashboard() {
           </div>
         </div>
       ) : null}
-
-      {activeGame ? (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-cover bg-center px-4 py-8"
-          style={{ backgroundImage: "url('/bgofmodal.png')" }}
-        >
-          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[28px] bg-white p-5 shadow-[0_20px_50px_rgba(15,23,42,0.28)] sm:p-8">
-            <div className="flex items-start justify-between gap-4">
-              <div className="w-full text-center">
-                <h3 className="text-2xl font-semibold text-slate-900 sm:text-3xl">
-                  Specify team information
-                </h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setActiveGame(null)}
-                className="text-2xl leading-none text-slate-400 transition hover:text-slate-700"
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="mt-6 space-y-5 sm:mt-8 sm:space-y-6">
-              <Field label="Game Name">
-                <input
-                  value={activeGame.name}
-                  readOnly
-                  className="h-14 w-full rounded-xl border border-slate-300 bg-slate-50 px-4 text-base text-slate-500 outline-none"
-                />
-              </Field>
-
-              <div className="grid gap-6 sm:grid-cols-2">
-                <Field label="First Team">
-                  <input
-                    value={teamA}
-                    onChange={(event) => setTeamA(event.target.value)}
-                    placeholder="Team name"
-                    className="h-14 w-full rounded-xl border border-slate-300 px-4 text-base outline-none focus:border-[#FF0099]"
-                  />
-                </Field>
-
-                <Field label="Second team">
-                  <input
-                    value={teamB}
-                    onChange={(event) => setTeamB(event.target.value)}
-                    placeholder="Team name"
-                    className="h-14 w-full rounded-xl border border-slate-300 px-4 text-base outline-none focus:border-[#FF0099]"
-                  />
-                </Field>
-              </div>
-
-              <div className="pt-2 text-center">
-                <button
-                  type="button"
-                  onClick={handleStartMatch}
-                  disabled={!teamA.trim() || !teamB.trim()}
-                  className="inline-flex min-w-56 items-center justify-center rounded-xl bg-[#FF0099] px-8 py-4 text-xl font-semibold text-white shadow-[0_12px_24px_rgba(255,0,153,0.18)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
-                >
-                  Start playing
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
     </>
   );
 }
@@ -499,23 +345,6 @@ function toShortCategoryLabel(category: string) {
   return category.length > 10 ? category.slice(0, 10) : category;
 }
 
-function Field({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-3 block text-center text-base font-semibold text-slate-700">
-        {label}
-      </span>
-      {children}
-    </label>
-  );
-}
-
 function PaymentIcon() {
   return (
     <svg
@@ -553,4 +382,3 @@ function SearchIcon() {
     </svg>
   );
 }
-
